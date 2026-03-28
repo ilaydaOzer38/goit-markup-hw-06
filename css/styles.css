@@ -782,9 +782,9 @@ ul {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition:
+  /*transition:
     opacity 250ms cubic-bezier(0.4, 0, 0.2, 1),
-    visibility 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    visibility 250ms cubic-bezier(0.4, 0, 0.2, 1);*/
 }
 
 /* Menü açıldığında çalışacak sınıf */
@@ -1082,10 +1082,10 @@ textarea {
   height: 100%;
   background-color: #ffffff;
   z-index: 999;
-  
+
   /* Başlangıçta sağa it ve gizle */
   transform: translateX(100%);
- /* visibility: hidden;*/
+  /* visibility: hidden;*/
   transition: transform 250ms ease;
 }
 
@@ -1094,11 +1094,168 @@ textarea {
   transform: translateX(0);
   visibility: visible;
 }
-
+/* ÖNEMLİ: Ekran büyüdüğünde mobil menünün açık kalmaması için */
+@media screen and (min-width: 768px) {
+  .mobile-menu {
+    display: none;
+  }
+}
 /* Menü butonu (label) için cursor ayarı */
-.menu-open-btn, .menu-close-btn {
+.menu-open-btn,
+.menu-close-btn {
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.mobile-nav-link.current{
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;        /* Bold */
+  font-size: 36px;
+  line-height: 1.11;       /* Figma'daki 40px / 36px değerine denk gelir */
+  letter-spacing: 0.02em;  /* Figma'daki %2 değeri */
+  /* Renk Özellikleri (Colors Paneli) */
+  color: #404bbf;          /* Figma'daki "OCEAN" rengi */
+  /* Temizleme */
+  text-decoration: none;
+}
+.mobile-nav-link {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 1.11;
+  letter-spacing: 0.02em;
+  color: #2e2f42; /* Genel "NAVY BLUE" renginiz */
+  text-decoration: none;
+  gap: 40px;
+  padding-bottom: 168px;
+}
+.mobile-nav-list {
+  display: flex;
+  flex-direction: column; /* Yazıları alt alta dizer */
+  gap: 40px;              /* Figma'daki 'Gap' değeri */
+  margin-bottom: 40px;    /* Altındaki iletişim bilgilerinden uzaklaşması için (tahmini) */
+}
+.mobile-menu-container {
+  padding: 80px 35px 40px 40px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* İçerik sığmazsa kaydırılabilmesi için: */
+  overflow-y: auto;
+}
+/* İletişim ve Sosyal Medya Grubunu En Alta İtmek İçin */
+.mobile-menu-bottom {
+  margin-top: auto; /* Bu komut navigasyon ile alt kısım arasını otomatik açar */
+}
+/* Menü listesi özel konumu */
+.menu {
+  margin-top: 72px;       /* Figma'daki 'Top' değeri */
+  margin-left: 16px;      /* Figma'daki 'Left' değeri */
+}
+/* İletişim bilgilerini içeren listenin genel ayarı */
+.mobile-contacts-list {
+  display: flex;
+  flex-direction: column; /* Üst üste dizilmeleri için */
+  gap: 24px; 
+  margin-bottom: 48px;             /* Figma'daki boşluk değeri */
+  margin-top: 440px;      /* Figma'daki Top değeri */
+  margin-left: 16px;      /* Figma'daki Left değeri */
+  font-style: normal;     /* Address etiketinin varsayılan italik halini düzeltir */
+}
+
+/* Telefon Numarası Stili */
+.mobile-contacts-link.accent {
+  font-style: medium;
+  font-weight: 500;
+  font-size: 20px; 
+  line-height: 24px;
+  letter-spacing: 0.02em;
+  color: #4d5ae5;         /* Figma'daki vurgu rengi */
+  text-decoration: none;
+}
+/* E-posta Stili*/
+.mobile-contacts-link:not(.accent) {
+  font-weight: 500;
+  line-height: 24px;
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: #434455;         /* Figma'daki yazı rengi */
+  text-decoration: none;
+}
+.mobile-social-list {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;    /* İkonları yan yana dizer (Figma: Horizontal) */
+  gap: 40px;             /* İkonlar arası boşluk (Figma: Gap 40px) */
+  margin-top: 48px;      /* Bir üstteki contacts grubundan olan mesafe (440px + 72px yükseklik sonrası kalan farka göre ayarlanır) */
+  margin-left: 16px;     /* Figma: Left 16px */
+  padding: 0;
+  list-style: none;
+}
+/* İkonların dairesel çerçeveleri (Figma'daki Ellipse yapıları için) */
+.mobile-social-link {
+  width: 40px;
+  height: 40px;
+  background-color:#404bbf; /* Figma'daki mavi renk */
+  border: 1px solid #e7e9fc;    /* Örnek çerçeve rengi, Figma'ya göre güncelleyebilirsin */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.mobile-social-icon {
+  fill: #f4f4fd; /* İkonun iç rengi (beyazımsı) */
+}
+
+/* Üzerine gelince renk değişimi (Opsiyonel) */
+.mobile-social-link:hover,
+.mobile-social-link:focus {
+  background-color: #31d0aa; /* Farklı bir vurgu rengi */
+}
+
+
+.menu-open-btn {
+  display: flex; /* Mobilde burger butonunu göster */
+  border: none;
+  background-color: transparent;
+}
+
+/* --- TABLET VE MASAÜSTÜ (min-width: 768px) --- */
+@media screen and (min-width: 768px) {
+ /* .mobile-nav {
+  display: flex; /* Mobilde ana navigasyonu gizle */
+
+  .menu-open-btn {
+    display: none; /* 768px ve üzeri genişlikte burger butonunu kaldır */
+  }
+
+  .mobile-nav {
+    display: block; /* 768px ve üzeri genişlikte ana navigasyonu göster */
+  }
+
+  .mobile-nav-list {
+    display: flex; /* Linkleri yan yana diz */
+    gap: 40px;     /* Linkler arası boşluk */
+    /*align-items: center;*/
+  }
+  /* Adres (Contacts) kısmının tablet/masaüstünde görünmesi için */
+  .mobile-contacts {
+    display: block;
+    font-style: normal;
+    margin-left: auto;
+  }
+
+  .mobile-contacts-list {
+    display: flex;
+    flex-direction: column; /* Tablette alt alta, PC'de yan yana yapabilirsin */
+    gap: 12px;
+  }
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Logo ve Navigasyonu ayır */
+  }
 }
