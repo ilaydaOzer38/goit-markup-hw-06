@@ -58,22 +58,41 @@ img {
 
 /* --- HEADER --- */
 header {
-  border-bottom: 1px solid var(--accent-color);
-  box-shadow: 0px 2px 1px rgba(46, 47, 66, 0.08);
+  position: relative; /* Kritik: Absolute çocukları bunun içinde hizalayacak */
+  z-index: 100;       /* Her şeyin, özellikle hero görselinin üstünde dursun */
+  background-color: #ffffff;
+  /*padding: 0;*/
+  height: 56px;
+  /*border-bottom: 1px solid var(--accent-color);
+ /* box-shadow: 0px 2px 1px rgba(46, 47, 66, 0.08);*/
 }
 
 .header-container {
-  display: flex;
+ /* display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%; /* Konteynerin tam genişliğini kullanmasını sağlar */
-  padding: 16px 15px; /* Üstten/alttan boşluk (Figma'daki 16px Top değerine göre) */
+ width: 100%;
+ position: relative;*/
+ padding: 16px 15px;
+}
+/* Tasarım Hedefi: Logo ve İkon'un bulunduğu satır */
+.header-top-line {
+  position: absolute; /* Serbest bırak */
+  top: 16px;          /* Tasarımdaki üst boşluk */
+  left: 15px;         /* Sol boşluk */
+  right: 15px;        /* Sağ boşluk */
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Solda logo, sağda ikon */
 }
 
 .logo {
   font-family: "Raleway", sans-serif;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 18px;
+  line-height: 1.17;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   text-decoration: none;
   color: var(--primary-brand-color);
@@ -1081,19 +1100,22 @@ textarea {
   width: 100%;
   height: 100%;
   background-color: #ffffff;
-  z-index: 999;
+  z-index: 1000;
 
   /* Başlangıçta sağa it ve gizle */
   transform: translateX(100%);
   /* visibility: hidden;*/
-  transition: transform 250ms ease;
+  transition: transform 250ms ease-in-out;
 }
-
+/* Checkbox işaretlendiğinde (menü açıldığında) */
+#menu-toggle:checked ~ .mobile-menu {
+  transform: translateX(0);
+}
 /* SİHİRLİ NOKTA: Checkbox seçiliyse menüyü içeri al */
-.menu-toggle-checkbox:checked ~ .mobile-menu {
+/*.menu-toggle-checkbox:checked ~ .mobile-menu {
   transform: translateX(0);
   visibility: visible;
-}
+}*/
 /* ÖNEMLİ: Ekran büyüdüğünde mobil menünün açık kalmaması için */
 @media screen and (min-width: 768px) {
   .mobile-menu {
@@ -1218,44 +1240,154 @@ textarea {
 
 
 .menu-open-btn {
-  display: flex; /* Mobilde burger butonunu göster */
+/*  display: block;
   border: none;
   background-color: transparent;
+  cursor: pointer;
+  padding: 0;
+  /* SİHİRLİ DOKUNUŞ BURASI: */
+ /* position: absolute; /* Serbest bırak */
+  /*left: 280px;
+  right: 0px;      /* Sağdan 15px boşluk (padding'e uygun) */
+ /* top: 16px;        
+  transform: translateY(-50%); /* Tam ortalamak için yukarı çek */
+  
+ /* z-index: 10;      /* Her şeyin, özellikle de hero görselinin üzerinde dursun */*/
+ display: block;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+.menu-open-icon {
+  fill: #000000; /* Varsa ikon rengi */
 }
 
-/* --- TABLET VE MASAÜSTÜ (min-width: 768px) --- */
+/* Checkbox Hack (Gizli) */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+.nav {
+  display: none;
+  /*align-items: center;*/
+}
+.nav-list {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.menu-open-icon {
+  fill: #000000; /* Varsa ikon rengi */
+}
+.nav .nav-list, 
+.contacts {
+  display: none !important; /* Ödev kodlarını tamamen ezmek için */
+
+}
 @media screen and (min-width: 768px) {
- /* .mobile-nav {
-  display: flex; /* Mobilde ana navigasyonu gizle */
-
-  .menu-open-btn {
-    display: none; /* 768px ve üzeri genişlikte burger butonunu kaldır */
+  .header-top-line {
+    position: static;
+    padding: 0 15px; /* Standart padding */
   }
 
-  .mobile-nav {
-    display: block; /* 768px ve üzeri genişlikte ana navigasyonu göster */
+  /* B. Mobil elemanları yok et */
+  .menu-open-btn,
+  .mobile-menu {
+    display: none !important;
   }
 
-  .mobile-nav-list {
-    display: flex; /* Linkleri yan yana diz */
-    gap: 40px;     /* Linkler arası boşluk */
-    /*align-items: center;*/
-  }
-  /* Adres (Contacts) kısmının tablet/masaüstünde görünmesi için */
-  .mobile-contacts {
-    display: block;
-    font-style: normal;
-    margin-left: auto;
-  }
-
-  .mobile-contacts-list {
-    display: flex;
-    flex-direction: column; /* Tablette alt alta, PC'de yan yana yapabilirsin */
-    gap: 12px;
-  }
+  /* C. Layout Düzenlemesi: Tüm elemanları aynı satıra diz */
   .header-container {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Logo ve Navigasyonu ayır */
+    justify-content: space-between;
+    padding: 16px 15px; /* Tasarımdaki boşluklar */
   }
+
+  /* D. Eski Ödev Elemanlarını Göster */
+  .nav .nav-list {
+    display: flex;
+    gap: 40px;
+  }
+  .contacts {
+    display: block;
+    font-style: normal;
+  }
+}
+.nav-link {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: #2e2f42;
+  text-decoration: none;
+  padding: 24px 0;
+  display: block;
+  position: relative; /* Çizginin buna göre konumlanması için şart */
+  padding-bottom: 20px; /* Çizgi ile yazı arasındaki boşluk (Figma'ya göre ayarla) */
+  transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: #404bbf;
+}
+.nav-link.current {
+  color: #404bbf;
+}
+
+.nav-link.current::after {
+  content: ""; /* Boş içerik şarttır */
+  position: absolute;
+  left: 0;
+  bottom: -1px; /* Çizgiyi tam alta yapıştırır */
+  width: 100%; /* Linkin genişliği kadar olur */
+  height: 4px; /* Çizgi kalınlığı */
+  background-color: #404bbf; /* Çizgi rengi */
+  border-radius: 2px; /* Köşeleri biraz yuvarlatmak tasarımını yumuşatır */
+}
+.contacts-list {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+}
+.contacts-link {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: #434455; /* Figma'daki Slate rengi */
+  text-decoration: none;
+  transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.contacts-link:hover,
+.contacts-link:focus {
+  color: #404bbf;
+}
+.contacts {
+  display: none;
+  font-style: normal; /* Address etiketinin varsayılan italikliğini kaldırır */
+  margin-left: auto; /* İletişim bilgilerini en sağa iter */
+}
+.container {
+  width: 1158px;
+  margin: 0 auto;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
 }
